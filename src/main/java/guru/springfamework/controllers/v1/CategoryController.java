@@ -1,6 +1,6 @@
 package guru.springfamework.controllers.v1;
 
-import guru.springfamework.api.v1.model.CategoryDTO;
+import guru.springfamework.api.v1.model.CategoryDto;
 import guru.springfamework.api.v1.model.CategoryListDto;
 import guru.springfamework.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String name) {
+    public ResponseEntity<CategoryDto> getCategoryByName(@PathVariable String name) {
         return new ResponseEntity<>(categoryService.getCategoryByName(name), HttpStatus.OK);
     }
 }

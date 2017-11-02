@@ -1,6 +1,6 @@
 package guru.springfamework.controllers.v1;
 
-import guru.springfamework.api.v1.model.CategoryDTO;
+import guru.springfamework.api.v1.model.CategoryDto;
 import guru.springfamework.services.CategoryService;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,15 +44,15 @@ public class CategoryControllerTest {
 
     @Test
     public void testListCategories() throws Exception {
-        CategoryDTO category1 = new CategoryDTO();
+        CategoryDto category1 = new CategoryDto();
         category1.setId(1L);
         category1.setName(NAME);
 
-        CategoryDTO category2 = new CategoryDTO();
+        CategoryDto category2 = new CategoryDto();
         category2.setId(2L);
         category2.setName("Bob");
 
-        List<CategoryDTO> categories = Arrays.asList(category1, category2);
+        List<CategoryDto> categories = Arrays.asList(category1, category2);
 
         when(categoryService.getAllCategories()).thenReturn(categories);
 
@@ -64,7 +64,7 @@ public class CategoryControllerTest {
 
     @Test
     public void testGetByNameCategories() throws Exception {
-        CategoryDTO category = new CategoryDTO();
+        CategoryDto category = new CategoryDto();
         category.setId(1L);
         category.setName(NAME);
 

@@ -1,7 +1,7 @@
 package guru.springfamework.services;
 
 import guru.springfamework.api.v1.mapper.CategoryMapper;
-import guru.springfamework.api.v1.model.CategoryDTO;
+import guru.springfamework.api.v1.model.CategoryDto;
 import guru.springfamework.domain.Category;
 import guru.springfamework.repositories.CategoryRepository;
 import org.junit.Before;
@@ -43,7 +43,7 @@ public class CategoryServiceImplTest {
         when(categoryRepository.findAll()).thenReturn(categories);
 
         //when
-        List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
+        List<CategoryDto> categoryDTOS = categoryService.getAllCategories();
 
         //then
         assertEquals(3, categoryDTOS.size());
@@ -61,11 +61,11 @@ public class CategoryServiceImplTest {
         when(categoryRepository.findByName(anyString())).thenReturn(category);
 
         //when
-        CategoryDTO categoryDTO = categoryService.getCategoryByName(NAME);
+        CategoryDto categoryDto = categoryService.getCategoryByName(NAME);
 
         //then
-        assertEquals(ID, categoryDTO.getId());
-        assertEquals(NAME, categoryDTO.getName());
+        assertEquals(ID, categoryDto.getId());
+        assertEquals(NAME, categoryDto.getName());
 
     }
 
