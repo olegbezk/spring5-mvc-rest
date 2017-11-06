@@ -4,6 +4,7 @@ import guru.springfamework.api.v1.mapper.CustomerMapper;
 import guru.springfamework.api.v1.model.CustomerDto;
 import guru.springfamework.controllers.v1.CustomerController;
 import guru.springfamework.domain.Customer;
+import guru.springfamework.exceptions.ResourceNotFoundException;
 import guru.springfamework.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,12 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto getCustomerById(final Long id) {
         return customerRepository.findById(id)
                 .map(customerMapper::customerToCustomerDto)
-                .orElseThrow(RuntimeException::new);
+                .map(customerDto -> {
+                    customerDto.setCustomerUrl(getCustomerUrl(id));
+
+                    return customerDto;
+                })
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -73,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             return returnDto;
 
-        }).orElseThrow(RuntimeException::new); //todo implement better exception handling;
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
