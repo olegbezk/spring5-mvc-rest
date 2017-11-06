@@ -25,12 +25,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDto> getAllCustomers() {
         return customerRepository.findAll().stream()
-                .map(customerMapper::customerToCustomerDto)
+                .map(customer -> {
+                    final CustomerDto customerDto = customerMapper.customerToCustomerDto(customer);
+                    customerDto.setCustomerUrl("/api/v1/customer/" + customer.getId());
+                    return customerDto;
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CustomerDto getCustomerByName(final String name) {
-        return customerMapper.customerToCustomerDto(customerRepository.findByName(name));
+    public CustomerDto getCustomerById(final Long id) {
+        return customerRepository.findById(id)
+                .map(customerMapper::customerToCustomerDto)
+                .orElseThrow(RuntimeException::new);
     }
 }

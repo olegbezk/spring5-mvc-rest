@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +23,9 @@ public class CustomerServiceImplTest {
 
     private static final Long ID = 2L;
 
-    private static final String NAME = "Jimmy";
+    private static final String FIRST_NAME = "Jimmy";
+
+    private static final String LAST_NAME = "Root";
 
     @Autowired
     private CustomerService customerService;
@@ -51,20 +55,21 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void getCustomerByName() throws Exception {
+    public void getCustomerById() throws Exception {
         //given
         Customer customer = new Customer();
         customer.setId(ID);
-        customer.setName(NAME);
+        customer.setFirstname(FIRST_NAME);
+        customer.setLastname(LAST_NAME);
 
-        when(customerRepository.findByName(anyString())).thenReturn(customer);
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer));
 
         //when
-        CustomerDto customerByName = customerService.getCustomerByName(NAME);
+        CustomerDto customerById = customerService.getCustomerById(ID);
 
         //then
-        assertEquals(ID, customerByName.getId());
-        assertEquals(NAME, customerByName.getName());
+        assertEquals(FIRST_NAME, customerById.getFirstname());
+        assertEquals(LAST_NAME, customerById.getLastname());
     }
 
 }

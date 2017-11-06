@@ -8,7 +8,9 @@ import static junit.framework.TestCase.assertEquals;
 
 public class CustomerMapperTest {
 
-    private static final String NAME = "Joe";
+    private static final String FIRST_NAME = "Joe";
+
+    private static final String LAST_NAME = "Doe";
 
     private static final long ID = 1L;
 
@@ -18,15 +20,16 @@ public class CustomerMapperTest {
     public void customerToCustomerDto() throws Exception {
         //given
         Customer customer = new Customer();
-        customer.setName(NAME);
+        customer.setFirstname(FIRST_NAME);
+        customer.setLastname(LAST_NAME);
         customer.setId(ID);
 
         //when
         CustomerDto customerDto = customerMapper.customerToCustomerDto(customer);
 
         //then
-        assertEquals(Long.valueOf(ID), customerDto.getId());
-        assertEquals(NAME, customerDto.getName());
+        assertEquals(FIRST_NAME, customerDto.getFirstname());
+        assertEquals(LAST_NAME, customerDto.getLastname());
     }
 
 }
