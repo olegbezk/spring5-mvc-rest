@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -37,5 +38,10 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDto> createNewCustomer(@RequestBody final CustomerDto customerDto) {
         return new ResponseEntity<CustomerDto>(customerService.createNewCustomer(customerDto), HttpStatus.CREATED);
+    }
+
+    @PutMapping({"/{id}"})
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
+        return new ResponseEntity<>(customerService.saveCustomerByDto(id, customerDto), HttpStatus.OK);
     }
 }
