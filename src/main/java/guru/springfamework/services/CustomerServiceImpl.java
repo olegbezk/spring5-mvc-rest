@@ -2,6 +2,7 @@ package guru.springfamework.services;
 
 import guru.springfamework.api.v1.mapper.CustomerMapper;
 import guru.springfamework.api.v1.model.CustomerDto;
+import guru.springfamework.controllers.v1.CustomerController;
 import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll().stream()
                 .map(customer -> {
                     final CustomerDto customerDto = customerMapper.customerToCustomerDto(customer);
-                    customerDto.setCustomerUrl("/api/v1/customer/" + customer.getId());
+                    customerDto.setCustomerUrl(getCustomerUrl(customer.getId()));
                     return customerDto;
                 })
                 .collect(Collectors.toList());
@@ -68,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             CustomerDto returnDto = customerMapper.customerToCustomerDto(customerRepository.save(customer));
 
-            returnDto.setCustomerUrl("/api/v1/customer/" + id);
+            returnDto.setCustomerUrl(getCustomerUrl(id));
 
             return returnDto;
 
@@ -84,8 +85,12 @@ public class CustomerServiceImpl implements CustomerService {
         Customer savedCustomer = customerRepository.save(customer);
 
         CustomerDto returnDto = customerMapper.customerToCustomerDto(savedCustomer);
-        returnDto.setCustomerUrl("/api/v1/customer/" + savedCustomer.getId());
+        returnDto.setCustomerUrl(getCustomerUrl(savedCustomer.getId()));
 
         return returnDto;
+    }
+
+    private String getCustomerUrl(Long id) {
+        return CustomerController.BASE_URL + "/" + id;
     }
 }

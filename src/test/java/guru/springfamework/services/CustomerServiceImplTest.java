@@ -2,6 +2,7 @@ package guru.springfamework.services;
 
 import guru.springfamework.api.v1.mapper.CustomerMapper;
 import guru.springfamework.api.v1.model.CustomerDto;
+import guru.springfamework.controllers.v1.CustomerController;
 import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CustomerRepository;
 import org.junit.Before;
@@ -92,7 +93,7 @@ public class CustomerServiceImplTest {
 
         //then
         assertEquals(customerDto.getFirstname(), savedDto.getFirstname());
-        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+        assertEquals(getCustomerUrl(1L), savedDto.getCustomerUrl());
     }
 
     @Test
@@ -114,7 +115,7 @@ public class CustomerServiceImplTest {
 
         //then
         assertEquals(customerDto.getFirstname(), savedDto.getFirstname());
-        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+        assertEquals(getCustomerUrl(1L), savedDto.getCustomerUrl());
     }
 
     @Test
@@ -122,5 +123,9 @@ public class CustomerServiceImplTest {
         customerService.deleteCustomerById(1L);
 
         verify(customerRepository).deleteById(eq(1L));
+    }
+
+    private String getCustomerUrl(Long id) {
+        return CustomerController.BASE_URL + "/" + id;
     }
 }

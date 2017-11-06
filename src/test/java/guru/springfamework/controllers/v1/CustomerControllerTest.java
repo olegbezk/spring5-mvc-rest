@@ -67,14 +67,14 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.getAllCustomers()).thenReturn(customers);
 
-        mockMvc.perform(get("/api/v1/customers/")
+        mockMvc.perform(get(CustomerController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
     }
 
     @Test
-    public void testGetCustomerByName() throws Exception {
+    public void testGetCustomerById() throws Exception {
         CustomerDto customer = new CustomerDto();
         customer.setFirstname(FIRST_NAME);
         customer.setLastname(LAST_NAME);
@@ -82,7 +82,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customer);
 
-        mockMvc.perform(get("/api/v1/customers/1")
+        mockMvc.perform(get(CustomerController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(FIRST_NAME)));
@@ -98,17 +98,17 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
         CustomerDto returnDTO = new CustomerDto();
         returnDTO.setFirstname(customer.getFirstname());
         returnDTO.setLastname(customer.getLastname());
-        returnDTO.setCustomerUrl("/api/v1/customers/1");
+        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
         when(customerService.createNewCustomer(customer)).thenReturn(returnDTO);
 
         //when/then
-        mockMvc.perform(post("/api/v1/customers/")
+        mockMvc.perform(post(CustomerController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstname", equalTo("Fred")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
         CustomerDto customerDto = new CustomerDto();
         customerDto.setFirstname(customer.getFirstname());
         customerDto.setLastname(customer.getLastname());
-        customerDto.setCustomerUrl("/api/v1/customers/1");
+        customerDto.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
         when(customerService.saveCustomerByDto(anyLong(), any(CustomerDto.class))).thenReturn(customerDto);
 
@@ -132,7 +132,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Fred")))
                 .andExpect(jsonPath("$.lastname", equalTo("Flintstone")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
     @Test
@@ -145,7 +145,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
         CustomerDto customerDto = new CustomerDto();
         customerDto.setFirstname(customer.getFirstname());
         customerDto.setLastname("Flintstone");
-        customerDto.setCustomerUrl("/api/v1/customers/1");
+        customerDto.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
         when(customerService.patchCustomer(anyLong(), any(CustomerDto.class))).thenReturn(customerDto);
 
@@ -155,13 +155,13 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Fred")))
                 .andExpect(jsonPath("$.lastname", equalTo("Flintstone")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
     @Test
     public void testDeleteCustomer() throws Exception {
 
-        mockMvc.perform(delete("/api/v1/customers/1")
+        mockMvc.perform(delete(CustomerController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
