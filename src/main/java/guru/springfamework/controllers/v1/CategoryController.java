@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping(CategoryController.BASE_URL)
 public class CategoryController {
 
@@ -25,12 +27,14 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<CategoryListDto> getAllCategories() {
-        return new ResponseEntity<>(new CategoryListDto(categoryService.getAllCategories()), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryListDto getAllCategories() {
+        return new CategoryListDto(categoryService.getAllCategories());
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<CategoryDto> getCategoryByName(@PathVariable String name) {
-        return new ResponseEntity<>(categoryService.getCategoryByName(name), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryDto getCategoryByName(@PathVariable String name) {
+        return categoryService.getCategoryByName(name);
     }
 }
